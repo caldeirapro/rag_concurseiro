@@ -3,6 +3,7 @@
 import { useChat } from '@ai-sdk/react';
 import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { DefaultChatTransport } from 'ai';
 
 const SUGGESTIONS = [
   {
@@ -26,7 +27,9 @@ const SUGGESTIONS = [
 export default function ChatPage() {
   const [input, setInput] = useState('');
   const { messages, sendMessage, status, setMessages } = useChat({
-    api: '/api/chat',
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+    }),
   });
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -230,7 +233,7 @@ export default function ChatPage() {
                               .map((part: any) => part.text)
                               .join('')
                           ) : (
-                            message.content || ''
+                            (message as any).content || ''
                           )}
                         </ReactMarkdown>
                       </div>
