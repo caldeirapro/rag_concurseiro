@@ -60,22 +60,26 @@ export default function ChatPage() {
 
   // Restaura o histórico de mensagens do localStorage após montagem
   useEffect(() => {
-    const saved = localStorage.getItem('rag_concurseiro_chat_messages');
-    if (saved) {
-      try {
+    try {
+      const saved = localStorage.getItem('rag_concurseiro_chat_messages');
+      if (saved) {
         setMessages(JSON.parse(saved));
-      } catch (e) {
-        console.error('Erro ao restaurar histórico de mensagens:', e);
       }
+    } catch (e) {
+      console.warn('LocalStorage inacessível:', e);
     }
   }, [setMessages]);
 
   // Salva no localStorage sempre que as mensagens mudam
   useEffect(() => {
-    if (messages.length > 0) {
-      localStorage.setItem('rag_concurseiro_chat_messages', JSON.stringify(messages));
-    } else {
-      localStorage.removeItem('rag_concurseiro_chat_messages');
+    try {
+      if (messages.length > 0) {
+        localStorage.setItem('rag_concurseiro_chat_messages', JSON.stringify(messages));
+      } else {
+        localStorage.removeItem('rag_concurseiro_chat_messages');
+      }
+    } catch (e) {
+      console.warn('Erro ao gravar no LocalStorage:', e);
     }
   }, [messages]);
 
