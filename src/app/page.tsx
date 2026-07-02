@@ -2,8 +2,12 @@
 
 import { useChat } from '@ai-sdk/react';
 import { useState, useRef, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { DefaultChatTransport } from 'ai';
+import dynamic from 'next/dynamic';
+
+const ReactMarkdown = dynamic(() => import('react-markdown'), {
+  ssr: false,
+  loading: () => <span className="animate-pulse">Carregando...</span>,
+});
 
 const SUGGESTIONS = [
   {
@@ -26,11 +30,7 @@ const SUGGESTIONS = [
 
 export default function ChatPage() {
   const [input, setInput] = useState('');
-  const { messages, sendMessage, status, setMessages } = useChat({
-    transport: new DefaultChatTransport({
-      api: '/api/chat',
-    }),
-  });
+  const { messages, sendMessage, status, setMessages } = useChat();
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const isLoading = status === 'submitted' || status === 'streaming';
