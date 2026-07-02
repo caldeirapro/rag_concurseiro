@@ -7,4 +7,5 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # Regras do Projeto (Workspace Rules)
 
 - **Mensagens de Commit**: Sempre escreva as descrições e mensagens de commits em **português**.
+- **Confirmação de Commit**: Sempre peça autorização expressa ao usuário antes de realizar qualquer commit local ou push no repositório.
 
